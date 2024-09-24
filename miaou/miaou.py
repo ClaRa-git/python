@@ -1,3 +1,13 @@
+# commandes :
+# p : entrer/sortir de pause
+# t : déplacements avec/sans trainées
+# + / r (sur pad) : augmenter la vitesse
+# - / l (sur pad) : diminuer la vitesse
+# n : fond d'écran noir
+# b : fond d'écran blanc
+# esc : sortir du programme
+# s (uniquement si le programme est en pause) : sauvegarde de l'image affichée sous le format image_%Y_%m_%d_%H_%M_%S.bmp
+
 import pygame
 import sys
 import random
@@ -14,8 +24,9 @@ enPause = False
 cas = 1
 vit = 50
 chaos = False
-nb_sauv_max = 5
-nb_sauv = 0
+nb_img_sauv_max = 5
+nb_img_sauv = 0
+avecTrainee = False
 
 chats = [pygame.image.load("img/chat1.bmp"), pygame.image.load("img/chat2.bmp"), pygame.image.load("img/chat3.bmp"),
          pygame.image.load("img/chat4.bmp"), pygame.image.load("img/chat5.bmp"), pygame.image.load("img/chat6.bmp")]
@@ -51,7 +62,8 @@ win.fill((0, 0, 0))
 while continuer:
     pygame.time.delay(vit)
 
-    # win.fill((0,0,0))
+    if avecTrainee:
+        win.fill((0,0,0))
     win.blit(img, (x, y))
     pygame.display.update()
 
@@ -71,14 +83,17 @@ while continuer:
             if event.key == pygame.K_b:
                 win.fill((255, 255, 255))
                 pygame.display.update()
-            if event.key == pygame.K_s and enPause and (nb_sauv <= nb_sauv_max):
+            if event.key == pygame.K_s and enPause and (nb_img_sauv <= nb_img_sauv_max):
                 pygame.image.save(win, "image_" + str(datetime.datetime.today().strftime('%Y_%m_%d_%H_%M_%S')) + ".bmp")
-                nb_sauv += 1
+                nb_img_sauv += 1
+            if event.key == pygame.K_t:
+                avecTrainee = not avecTrainee
+                
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_KP_PLUS] and vit > -50:
+    if (keys[pygame.K_KP_PLUS] or keys[pygame.K_r])and vit > -50:
         vit -= 1
-    if keys[pygame.K_KP_MINUS] and vit <= 200:
+    if (keys[pygame.K_KP_MINUS] or keys[pygame.K_l]) and vit <= 200:
         vit += 1
     if keys[pygame.K_DOWN] and y <= (winHeight - height + 2) and enPause:
         y += 2
