@@ -5,8 +5,9 @@
 # - / l (sur pad) : diminuer la vitesse
 # n : fond d'écran noir
 # b : fond d'écran blanc
+# c : trajectoire prévisible/aléatoire
 # esc : sortir du programme
-# s (uniquement si le programme est en pause) : sauvegarde de l'image affichée sous le format image_%Y_%m_%d_%H_%M_%S.bmp
+# s (uniquement si le programme est en pause) : sauvegarde de l'image affichée sous le format image_%Y_%m_%d_%H_%M_%S.bmp dans le dossier contenant le programme
 
 import pygame
 import sys
@@ -88,6 +89,8 @@ while continuer:
                 nb_img_sauv += 1
             if event.key == pygame.K_t:
                 avecTrainee = not avecTrainee
+            if event.key == pygame.K_c:
+                chaos = not chaos
                 
 
     keys = pygame.key.get_pressed()
